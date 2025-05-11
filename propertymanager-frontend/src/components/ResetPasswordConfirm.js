@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, TextField, Button, Alert } from '@mui/material';
+import { TextField, Button, Alert } from '@mui/material';
 import api from '../api';
+import '../css/ResetPasswordConfirm.css';
 
 export default function ResetPasswordConfirm() {
   const { uidb64, token } = useParams();
@@ -31,10 +32,20 @@ export default function ResetPasswordConfirm() {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 5 }}>
-      <h2>Ustaw nowe hasło</h2>
-      {message && <Alert severity={message.type} sx={{ mb: 2 }}>{message.text}</Alert>}
-      <form onSubmit={handleSubmit}>
+    <div className="reset-password-confirm-container">
+      <h2 className="reset-password-confirm-title">Ustaw nowe hasło</h2>
+      {message && (
+        <Alert
+          severity={message.type}
+          className="reset-password-confirm-alert"
+        >
+          {message.text}
+        </Alert>
+      )}
+      <form
+        onSubmit={handleSubmit}
+        className="reset-password-confirm-form"
+      >
         <TextField
           label="Nowe hasło"
           name="new_password"
@@ -43,7 +54,7 @@ export default function ResetPasswordConfirm() {
           onChange={handleChange}
           fullWidth
           required
-          sx={{ mb: 2 }}
+          className="reset-password-confirm-input"
         />
         <TextField
           label="Powtórz nowe hasło"
@@ -53,12 +64,17 @@ export default function ResetPasswordConfirm() {
           onChange={handleChange}
           fullWidth
           required
-          sx={{ mb: 2 }}
+          className="reset-password-confirm-input"
         />
-        <Button type="submit" variant="contained" fullWidth>
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          className="reset-password-confirm-button"
+        >
           Zresetuj hasło
         </Button>
       </form>
-    </Box>
+    </div>
   );
 }

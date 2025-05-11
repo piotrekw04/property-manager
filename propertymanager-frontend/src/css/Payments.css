@@ -1,0 +1,12 @@
+.payments-container {
+  padding: 24px;
+}
+
+.payments-add-button {
+  margin-bottom: 16px;
+}
+
+.payments-actions {
+  display: flex;
+  gap: 8px;
+}

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api';
+import '../css/EditLease.css';
 
-function EditLease() {
+export default function EditLease() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [lease, setLease] = useState({
@@ -12,7 +13,7 @@ function EditLease() {
   });
 
   useEffect(() => {
-    const fetchLease = async () => {
+    async function fetchLease() {
       try {
         const response = await api.get(`/leases/${id}/`);
         setLease({
@@ -23,16 +24,15 @@ function EditLease() {
       } catch (error) {
         console.error('Błąd ładowania wynajmu:', error);
       }
-    };
-
+    }
     fetchLease();
   }, [id]);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setLease({ ...lease, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     try {
       await api.patch(`/leases/${id}/`, lease);
@@ -44,12 +44,13 @@ function EditLease() {
   };
 
   return (
-    <div>
-      <h2>Edytuj wynajem</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="edit-lease-container">
+      <h2 className="edit-lease-title">Edytuj wynajem</h2>
+      <form onSubmit={handleSubmit} className="edit-lease-form">
         <input
           type="date"
           name="start_date"
+          className="edit-lease-input"
           value={lease.start_date}
           onChange={handleChange}
           required
@@ -57,6 +58,7 @@ function EditLease() {
         <input
           type="date"
           name="end_date"
+          className="edit-lease-input"
           value={lease.end_date}
           onChange={handleChange}
           required
@@ -64,15 +66,16 @@ function EditLease() {
         <input
           type="number"
           name="rent_amount"
+          className="edit-lease-input"
           value={lease.rent_amount}
           onChange={handleChange}
           placeholder="Czynsz miesięczny"
           required
         />
-        <button type="submit">Zapisz zmiany</button>
+        <button type="submit" className="edit-lease-submit">
+          Zapisz zmiany
+        </button>
       </form>
     </div>
   );
 }
-
-export default EditLease;

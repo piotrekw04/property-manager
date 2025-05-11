@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, Grid, Card, CardContent, Typography,
-  Table, TableHead, TableRow, TableCell, TableBody,
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
   Button
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
+import '../css/Dashboard.css';
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
@@ -30,42 +39,52 @@ export default function Dashboard() {
   }
 
   return (
-    <Box p={3}>
-      {/* Statystyki */}
-      <Grid container spacing={2} mb={3}>
+    <Box className="dashboard-container">
+      <Grid container spacing={2} className="dashboard-stats">
         <Grid item xs={3}>
-          <Card><CardContent>
-            <Typography variant="h6">Nieruchomości</Typography>
-            <Typography variant="h4">{stats.total_properties}</Typography>
-          </CardContent></Card>
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Nieruchomości</Typography>
+              <Typography variant="h4">{stats.total_properties}</Typography>
+            </CardContent>
+          </Card>
         </Grid>
         <Grid item xs={3}>
-          <Card><CardContent>
-            <Typography variant="h6">Aktywne umowy</Typography>
-            <Typography variant="h4">{stats.active_leases}</Typography>
-          </CardContent></Card>
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Aktywne umowy</Typography>
+              <Typography variant="h4">{stats.active_leases}</Typography>
+            </CardContent>
+          </Card>
         </Grid>
         <Grid item xs={3}>
-          <Card><CardContent>
-            <Typography variant="h6">Oczekujące</Typography>
-            <Typography variant="h4">{stats.pending_leases}</Typography>
-          </CardContent></Card>
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Oczekujące</Typography>
+              <Typography variant="h4">{stats.pending_leases}</Typography>
+            </CardContent>
+          </Card>
         </Grid>
         <Grid item xs={3}>
-          <Card><CardContent>
-            <Typography variant="h6">Płatności (7 dni)</Typography>
-            <Typography variant="h4">
-              {upcomingTenant.length + upcomingOwner.length}
-            </Typography>
-          </CardContent></Card>
+          <Card>
+            <CardContent>
+              <Typography variant="h6">Płatności (7 dni)</Typography>
+              <Typography variant="h4">
+                {upcomingTenant.length + upcomingOwner.length}
+              </Typography>
+            </CardContent>
+          </Card>
         </Grid>
       </Grid>
 
-      {/* Nadchodzące płatności */}
-      <Box mb={4}>
-        <Typography variant="h6" gutterBottom>Nadchodzące płatności</Typography>
+      <Box className="dashboard-upcoming">
+        <Typography variant="h6" className="dashboard-section-title">
+          Nadchodzące płatności
+        </Typography>
 
-        <Typography variant="subtitle1" mt={2}>Do zapłacenia</Typography>
+        <Typography variant="subtitle1" className="dashboard-section-title">
+          Do zapłacenia
+        </Typography>
         {upcomingTenant.length > 0 ? (
           <Table size="small">
             <TableHead>
@@ -79,7 +98,9 @@ export default function Dashboard() {
             <TableBody>
               {upcomingTenant.map((p, i) => (
                 <TableRow key={i}>
-                  <TableCell>{new Date(p.date).toLocaleDateString('pl-PL')}</TableCell>
+                  <TableCell>
+                    {new Date(p.date).toLocaleDateString('pl-PL')}
+                  </TableCell>
                   <TableCell>{p.property}</TableCell>
                   <TableCell>{p.counterparty}</TableCell>
                   <TableCell align="right">{p.amount} zł</TableCell>
@@ -88,10 +109,14 @@ export default function Dashboard() {
             </TableBody>
           </Table>
         ) : (
-          <Typography variant="body2">Brak płatności do zapłacenia.</Typography>
+          <Typography variant="body2">
+            Brak płatności do zapłacenia.
+          </Typography>
         )}
 
-        <Typography variant="subtitle1" mt={3}>Do odebrania</Typography>
+        <Typography variant="subtitle1" className="dashboard-section-title">
+          Do odebrania
+        </Typography>
         {upcomingOwner.length > 0 ? (
           <Table size="small">
             <TableHead>
@@ -105,7 +130,9 @@ export default function Dashboard() {
             <TableBody>
               {upcomingOwner.map((p, i) => (
                 <TableRow key={i}>
-                  <TableCell>{new Date(p.date).toLocaleDateString('pl-PL')}</TableCell>
+                  <TableCell>
+                    {new Date(p.date).toLocaleDateString('pl-PL')}
+                  </TableCell>
                   <TableCell>{p.property}</TableCell>
                   <TableCell>{p.counterparty}</TableCell>
                   <TableCell align="right">{p.amount} zł</TableCell>
@@ -114,35 +141,51 @@ export default function Dashboard() {
             </TableBody>
           </Table>
         ) : (
-          <Typography variant="body2">Brak płatności do odebrania.</Typography>
+          <Typography variant="body2">
+            Brak płatności do odebrania.
+          </Typography>
         )}
       </Box>
 
-      {/* Ostatnie wiadomości */}
-      <Box mb={4}>
-        <Typography variant="h6" gutterBottom>Ostatnie wiadomości</Typography>
-        {messages.length > 0 ? messages.map((m, i) => (
-          <Box key={i} mb={2} p={2} border="1px solid #ccc" borderRadius={1}>
-            <Typography variant="subtitle2">{m.sender}</Typography>
-            <Typography>{m.content}</Typography>
-            <Typography variant="caption" color="textSecondary">
-              {new Date(m.timestamp).toLocaleString('pl-PL')}
-            </Typography>
-          </Box>
-        )) : (
+      <Box className="dashboard-messages">
+        <Typography variant="h6" className="dashboard-section-title">
+          Ostatnie wiadomości
+        </Typography>
+        {messages.length > 0 ? (
+          messages.map((m, i) => (
+            <Box key={i} className="message-card">
+              <Typography variant="subtitle2">{m.sender}</Typography>
+              <Typography>{m.content}</Typography>
+              <Typography variant="caption" color="textSecondary">
+                {new Date(m.timestamp).toLocaleString('pl-PL')}
+              </Typography>
+            </Box>
+          ))
+        ) : (
           <Typography>Brak nowych wiadomości.</Typography>
         )}
       </Box>
 
-      {/* Szybkie akcje */}
-      <Box>
-        <Button variant="contained" onClick={() => navigate('/addproperty')} sx={{ mr: 2 }}>
+      <Box className="dashboard-actions">
+        <Button
+          variant="contained"
+          onClick={() => navigate('/addproperty')}
+          className="action-button"
+        >
           Dodaj nieruchomość
         </Button>
-        <Button variant="contained" onClick={() => navigate('/addleasing')} sx={{ mr: 2 }}>
+        <Button
+          variant="contained"
+          onClick={() => navigate('/addleasing')}
+          className="action-button"
+        >
           Dodaj wynajem
         </Button>
-        <Button variant="contained" onClick={() => navigate('/addpayment')}>
+        <Button
+          variant="contained"
+          onClick={() => navigate('/addpayment')}
+          className="action-button"
+        >
           Dodaj płatność
         </Button>
       </Box>

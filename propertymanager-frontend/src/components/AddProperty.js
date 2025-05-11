@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
+import '../css/AddProperty.css';  // <-- import stylów
 
 function AddProperty() {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
     area: '',
-    property_type: 'flat', // domyślnie mieszkanie
+    property_type: 'flat',
     rooms: '',
     description: '',
     is_furnished: false,
@@ -19,7 +20,7 @@ function AddProperty() {
     try {
       await api.post('/properties/', formData);
       alert('Nieruchomość dodana!');
-      navigate('/properties'); // poprawione, bo masz /properties
+      navigate('/properties');
     } catch (error) {
       console.error('Błąd:', error.response?.data || error);
       alert('Błąd podczas dodawania nieruchomości!');
@@ -35,7 +36,7 @@ function AddProperty() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="add-property-form">
       <input
         type="text"
         name="name"
@@ -44,6 +45,7 @@ function AddProperty() {
         onChange={handleChange}
         required
       />
+
       <input
         type="text"
         name="address"
@@ -52,6 +54,7 @@ function AddProperty() {
         onChange={handleChange}
         required
       />
+
       <input
         type="number"
         name="area"
@@ -88,17 +91,19 @@ function AddProperty() {
         onChange={handleChange}
       />
 
-      <label>
+      <div className="add-property-checkbox">
         <input
           type="checkbox"
           name="is_furnished"
           checked={formData.is_furnished}
           onChange={handleChange}
         />
-        Wyposażone
-      </label>
+        <label htmlFor="is_furnished">Wyposażone</label>
+      </div>
 
-      <button type="submit">Dodaj nieruchomość</button>
+      <button type="submit" className="add-property-button">
+        Dodaj nieruchomość
+      </button>
     </form>
   );
 }

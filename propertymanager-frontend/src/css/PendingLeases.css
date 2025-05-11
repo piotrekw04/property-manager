@@ -1,0 +1,39 @@
+.pending-leases-container {
+  padding: 24px;
+}
+
+.pending-leases-container h2 {
+  margin-bottom: 16px;
+}
+
+.pending-lease-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.pending-lease-field {
+  margin-bottom: 4px;
+}
+
+.pending-lease-actions {
+  margin-top: 10px;
+}
+
+.pending-lease-actions .confirm-button,
+.pending-lease-actions .reject-button {
+  padding: 6px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.pending-lease-actions .confirm-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.pending-lease-actions .reject-button {
+  background-color: #f44336;
+  color: white;
+  margin-left: 10px;
+}

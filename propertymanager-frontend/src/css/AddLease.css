@@ -1,0 +1,27 @@
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.tenant-search-container {
+  margin: 10px 0;
+}
+
+.search-button {
+  margin-left: 10px;
+}
+
+.search-result {
+  background-color: #e0f7fa;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.agreement-label {
+  display: block;
+  margin-top: 10px;
+}
+
+.submit-button {
+  margin-top: 15px;
+}

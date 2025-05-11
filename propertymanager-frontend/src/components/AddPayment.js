@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import {
-  Box, TextField, Button, Typography, Alert, MenuItem
+  TextField,
+  Button,
+  Typography,
+  Alert,
+  MenuItem
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
+import '../css/AddPayment.css';
 
 export default function AddPayment() {
   const [form, setForm] = useState({
@@ -19,7 +24,6 @@ export default function AddPayment() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // pobierz listę umów
     api.get('/leases/')
       .then(res => setLeases(res.data))
       .catch(err => console.error('Nie udało się pobrać umów:', err));
@@ -58,12 +62,19 @@ export default function AddPayment() {
   };
 
   return (
-    <Box p={3} maxWidth={600} mx="auto">
-      <Typography variant="h5" mb={2}>Dodaj płatność</Typography>
-      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+    <div className="add-payment-container">
+      <Typography variant="h5" className="add-payment-title">
+        Dodaj płatność
+      </Typography>
+      {error && (
+        <Alert severity="error" className="add-payment-error">
+          {error}
+        </Alert>
+      )}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="add-payment-form">
         <TextField
+          className="textfield-row"
           select
           label="Wybierz umowę"
           name="lease"
@@ -71,31 +82,29 @@ export default function AddPayment() {
           onChange={handleChange}
           fullWidth
           required
-          sx={{ mb: 2 }}
         >
           {leases.map(l => (
             <MenuItem key={l.id} value={l.id}>
-              {l.property_info.name} — 
-              {l.tenant_info.username === l.tenant_info.username /* dummy */}
-              {' '}
-              {l.tenant_info.username !== undefined 
-                ? `Najemca: ${l.tenant_info.username}` 
-                : `Właściciel: ${l.owner_info.username}`}
+              {l.property_info.name}{' '}
+              {l.tenant_info.username
+                ? `— Najemca: ${l.tenant_info.username}`
+                : `— Właściciel: ${l.owner_info.username}`}
             </MenuItem>
           ))}
         </TextField>
 
         <TextField
+          className="textfield-row"
           label="Tytuł"
           name="title"
           value={form.title}
           onChange={handleChange}
           fullWidth
           required
-          sx={{ mb: 2 }}
         />
 
         <TextField
+          className="textfield-row"
           label="Opis"
           name="description"
           value={form.description}
@@ -103,10 +112,10 @@ export default function AddPayment() {
           fullWidth
           multiline
           rows={3}
-          sx={{ mb: 2 }}
         />
 
         <TextField
+          className="textfield-row"
           label="Data"
           name="date"
           type="date"
@@ -115,10 +124,10 @@ export default function AddPayment() {
           fullWidth
           required
           InputLabelProps={{ shrink: true }}
-          sx={{ mb: 2 }}
         />
 
         <TextField
+          className="textfield-row"
           label="Kwota"
           name="amount"
           type="number"
@@ -126,11 +135,10 @@ export default function AddPayment() {
           onChange={handleChange}
           fullWidth
           required
-          inputProps={{ step: "0.01" }}
-          sx={{ mb: 2 }}
+          inputProps={{ step: '0.01' }}
         />
 
-        <Box display="flex" alignItems="center" mb={2}>
+        <div className="checkbox-container">
           <input
             type="checkbox"
             id="is_paid"
@@ -138,20 +146,26 @@ export default function AddPayment() {
             checked={form.is_paid}
             onChange={handleChange}
           />
-          <label htmlFor="is_paid" style={{ marginLeft: 8 }}>Opłacone</label>
-        </Box>
+          <label htmlFor="is_paid">Opłacone</label>
+        </div>
 
-        <Button type="submit" variant="contained">
-          Dodaj
-        </Button>
-        <Button
-          variant="outlined"
-          sx={{ ml: 2 }}
-          onClick={() => navigate('/payments')}
-        >
-          Anuluj
-        </Button>
+        <div className="button-group">
+          <Button
+            type="submit"
+            variant="contained"
+            className="submit-button"
+          >
+            Dodaj
+          </Button>
+          <Button
+            variant="outlined"
+            className="cancel-button"
+            onClick={() => navigate('/payments')}
+          >
+            Anuluj
+          </Button>
+        </div>
       </form>
-    </Box>
+    </div>
   );
 }

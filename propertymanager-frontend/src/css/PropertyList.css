@@ -1,0 +1,38 @@
+.property-list {
+  padding: 16px;
+}
+
+.property-list__header {
+  margin-bottom: 16px;
+}
+
+.property-list__add-btn {
+  margin-bottom: 16px;
+}
+
+.property-list__list {
+  list-style: none;
+  padding: 0;
+}
+
+.property-list__item {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.property-list__item h3 {
+  margin: 0 0 8px;
+}
+
+.property-list__item p {
+  margin: 4px 0;
+}
+
+.property-list__actions {
+  margin-top: 8px;
+}
+
+.property-list__actions button {
+  margin-right: 8px;
+}
