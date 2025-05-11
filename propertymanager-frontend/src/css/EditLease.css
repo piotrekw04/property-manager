@@ -1,0 +1,26 @@
+.edit-lease-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.edit-lease-title {
+  margin-bottom: 16px;
+}
+
+.edit-lease-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-lease-input {
+  margin-bottom: 12px;
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.edit-lease-submit {
+  padding: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}

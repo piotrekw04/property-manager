@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
-import LoadingSpinner from './LoadingSpinner'; 
+import LoadingSpinner from './LoadingSpinner';
+import '../css/PendingLeases.css';
 
-function PendingLeases() {
+export default function PendingLeases() {
   const [pendingLeases, setPendingLeases] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -63,24 +64,46 @@ function PendingLeases() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <div>
+    <div className="pending-leases-container">
       <h2>Oczekujące wynajmy</h2>
 
       {pendingLeases.length === 0 ? (
         <p>Brak oczekujących wynajmów do potwierdzenia.</p>
       ) : (
         pendingLeases.map(lease => (
-          <div key={lease.id} style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '10px' }}>
-            <div><strong>Nieruchomość:</strong> {lease.property_info.name} ({lease.property_info.address})</div>
-            <div><strong>Właściciel:</strong> {lease.owner_info.first_name} {lease.owner_info.last_name} ({lease.owner_info.username})</div>
-            <div><strong>Okres najmu:</strong> {lease.start_date} ➔ {lease.end_date}</div>
-            <div><strong>Miesięczny czynsz:</strong> {lease.rent_amount} zł</div>
-            <div><strong>Podpisano na miejscu:</strong> {lease.agreement_signed_in_person ? "Tak" : "Nie"}</div>
-            <div><strong>Status:</strong> {translateStatus(lease.status)}</div>
+          <div key={lease.id} className="pending-lease-item">
+            <div className="pending-lease-field">
+              <strong>Nieruchomość:</strong> {lease.property_info.name} ({lease.property_info.address})
+            </div>
+            <div className="pending-lease-field">
+              <strong>Właściciel:</strong> {lease.owner_info.first_name} {lease.owner_info.last_name} ({lease.owner_info.username})
+            </div>
+            <div className="pending-lease-field">
+              <strong>Okres najmu:</strong> {lease.start_date} ➔ {lease.end_date}
+            </div>
+            <div className="pending-lease-field">
+              <strong>Miesięczny czynsz:</strong> {lease.rent_amount} zł
+            </div>
+            <div className="pending-lease-field">
+              <strong>Podpisano na miejscu:</strong> {lease.agreement_signed_in_person ? "Tak" : "Nie"}
+            </div>
+            <div className="pending-lease-field">
+              <strong>Status:</strong> {translateStatus(lease.status)}
+            </div>
 
-            <div style={{ marginTop: '10px' }}>
-              <button onClick={() => handleConfirm(lease.id)}>Akceptuję</button>
-              <button onClick={() => handleReject(lease.id)} style={{ marginLeft: '10px' }}>Odrzucam</button>
+            <div className="pending-lease-actions">
+              <button
+                className="confirm-button"
+                onClick={() => handleConfirm(lease.id)}
+              >
+                Akceptuję
+              </button>
+              <button
+                className="reject-button"
+                onClick={() => handleReject(lease.id)}
+              >
+                Odrzucam
+              </button>
             </div>
           </div>
         ))
@@ -88,5 +111,3 @@ function PendingLeases() {
     </div>
   );
 }
-
-export default PendingLeases;

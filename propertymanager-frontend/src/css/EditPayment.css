@@ -1,0 +1,33 @@
+.edit-payment-container {
+  padding: 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.edit-payment-title {
+  margin-bottom: 16px;
+}
+
+.edit-payment-form .form-control {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.checkbox-label {
+  margin-left: 8px;
+}
+
+.button-group {
+  display: flex;
+  margin-top: 16px;
+}
+
+.button-group .cancel-button {
+  margin-left: 16px;
+}

@@ -32,8 +32,6 @@
     background-color: #3a5a8a;
   }
 
-  /* ... istniejące style ... */
-
 .auth-buttons {
     display: flex;
     gap: 1rem;

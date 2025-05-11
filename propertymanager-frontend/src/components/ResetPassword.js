@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Alert } from '@mui/material';
+import { TextField, Button, Alert } from '@mui/material';
 import api from '../api';
+import '../css/ResetPassword.css';
 
 export default function ResetPassword() {
   const [email, setEmail] = useState('');
@@ -20,10 +21,14 @@ export default function ResetPassword() {
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 5 }}>
-      <h2>Reset hasła</h2>
-      {message && <Alert severity={message.type} sx={{ mb: 2 }}>{message.text}</Alert>}
-      <form onSubmit={handleSubmit}>
+    <div className="reset-password-container">
+      <h2 className="reset-password-title">Reset hasła</h2>
+      {message && (
+        <Alert severity={message.type} className="reset-password-alert">
+          {message.text}
+        </Alert>
+      )}
+      <form onSubmit={handleSubmit} className="reset-password-form">
         <TextField
           label="Adres e-mail"
           type="email"
@@ -31,12 +36,17 @@ export default function ResetPassword() {
           onChange={e => setEmail(e.target.value)}
           fullWidth
           required
-          sx={{ mb: 2 }}
+          className="reset-password-input"
         />
-        <Button type="submit" variant="contained" fullWidth>
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          className="reset-password-button"
+        >
           Wyślij link resetujący
         </Button>
       </form>
-    </Box>
+    </div>
   );
 }

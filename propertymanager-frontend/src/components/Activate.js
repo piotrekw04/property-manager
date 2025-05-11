@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api';
+import '../css/Activate.css';
 
 export default function Activate() {
   const { uidb64, token } = useParams();
@@ -19,7 +20,7 @@ export default function Activate() {
   }, [uidb64, token, navigate]);
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <div className="activate-container">
       <h2>Aktywacja konta</h2>
       <p>{message}</p>
     </div>

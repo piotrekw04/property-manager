@@ -1,4 +1,3 @@
-// src/components/Payments.js
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box,
@@ -14,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import api from '../api';
 import LoadingSpinner from './LoadingSpinner';
+import '../css/Payments.css';
 
 export default function Payments() {
   const [payments, setPayments] = useState([]);
@@ -24,14 +24,12 @@ export default function Payments() {
 
   const fetchAll = useCallback(async () => {
     try {
-      // Dekodujemy token, żeby pozyskać user_id
       const token = localStorage.getItem('access_token');
       if (token) {
         const { user_id } = jwtDecode(token);
         setCurrentUserId(user_id);
       }
 
-      // Pobieramy płatności i umowy
       const [payRes, leaseRes] = await Promise.all([
         api.get('/payments/'),
         api.get('/leases/')
@@ -59,7 +57,6 @@ export default function Payments() {
     navigate(`/editpayment/${id}`);
   };
 
-  // Funkcja pobierająca fakturę PDF
   const downloadInvoice = (id, invoiceNumber) => {
     api.get(`/payments/${id}/invoice/`, { responseType: 'blob' })
       .then(res => {
@@ -82,7 +79,7 @@ export default function Payments() {
   if (loading) return <LoadingSpinner />;
 
   return (
-    <Box p={3}>
+    <Box className="payments-container">
       <Typography variant="h4" gutterBottom>
         Płatności
       </Typography>
@@ -90,7 +87,7 @@ export default function Payments() {
       <Button
         variant="contained"
         onClick={() => navigate('/addpayment')}
-        sx={{ mb: 2 }}
+        className="payments-add-button"
       >
         Dodaj płatność
       </Button>
@@ -113,18 +110,12 @@ export default function Payments() {
           </TableHead>
           <TableBody>
             {payments.map(p => {
-              // Znajdź pełne dane umowy
               const leaseFull = leases.find(l => l.id === p.lease.id);
               const leaseData = leaseFull ?? p.lease;
-
-              // Id właściciela i najemcy
               const ownerId = leaseFull?.owner_info?.id ?? leaseData.property.owner;
               const tenantId = leaseFull?.tenant_info?.id ?? p.lease.tenant;
-
-              // Czy bieżący użytkownik jest właścicielem tej płatności?
               const isOwner = currentUserId === ownerId;
 
-              // Ustal, kogo wyświetlić jako "kontrahenta"
               let other;
               if (leaseFull) {
                 const u = isOwner
@@ -132,13 +123,11 @@ export default function Payments() {
                   : leaseFull.owner_info;
                 other = `${u.first_name} ${u.last_name} (${u.username})`;
               } else {
-                // Fallback na ID, jeśli brak pełnych danych
                 other = isOwner
                   ? `Najemca ID: ${tenantId}`
                   : `Właściciel ID: ${ownerId}`;
               }
 
-              // Nazwa nieruchomości
               const propertyName =
                 leaseFull?.property_info?.name || `ID: ${leaseData.property.id}`;
 
@@ -153,7 +142,7 @@ export default function Payments() {
                     {parseFloat(p.amount).toFixed(2)} zł
                   </TableCell>
                   <TableCell>{p.is_paid ? '✅' : '❌'}</TableCell>
-                  <TableCell>
+                  <TableCell className="payments-actions">
                     {isOwner && (
                       <Button size="small" onClick={() => handleEdit(p.id)}>
                         Edytuj
@@ -161,7 +150,6 @@ export default function Payments() {
                     )}
                     <Button
                       size="small"
-                      sx={{ ml: 1 }}
                       onClick={() => downloadInvoice(p.id, p.invoice_number)}
                     >
                       Faktura

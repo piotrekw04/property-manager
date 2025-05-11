@@ -1,0 +1,26 @@
+.lease-management-container {
+  padding: 24px;
+}
+.lease-management-title {
+  margin-bottom: 16px;
+}
+.lease-type-buttons {
+  margin-bottom: 20px;
+}
+.lease-type-buttons button + button {
+  margin-left: 10px;
+}
+.add-lease-button-container {
+  margin-bottom: 20px;
+}
+.lease-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.lease-card-actions {
+  margin-top: 10px;
+}
+.lease-card-actions button + button {
+  margin-left: 10px;
+}

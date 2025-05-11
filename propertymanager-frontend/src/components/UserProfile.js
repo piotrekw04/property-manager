@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box, Alert, Avatar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
+import '../css/UserProfile.css';
 
 export default function UserProfile() {
   const navigate = useNavigate();
@@ -72,17 +73,16 @@ export default function UserProfile() {
   };
 
   return (
-    <Box sx={{ maxWidth: 600, mx: 'auto', p: 3 }}>
+    <Box className="user-profile-container">
       {message.text && (
         <Alert severity={message.type} sx={{ mb: 2 }}>
           {message.text}
         </Alert>
       )}
 
-      {/* formularz edycji */}
-      {isEditing && (
+      {isEditing ? (
         <Box component="form" onSubmit={handleSubmit}>
-          <Box sx={{ textAlign: 'center', mb: 2 }}>
+          <Box className="user-profile-avatar-center">
             <Avatar src={preview} sx={{ width: 100, height: 100, mx: 'auto' }} />
             <Button
               type="button"
@@ -154,7 +154,7 @@ export default function UserProfile() {
             margin="normal"
           />
 
-          <Box sx={{ mt: 2 }}>
+          <Box className="user-profile-button-group">
             <Button type="submit" variant="contained" sx={{ mr: 2 }}>
               Zapisz zmiany
             </Button>
@@ -167,12 +167,9 @@ export default function UserProfile() {
             </Button>
           </Box>
         </Box>
-      )}
-
-      {/* przyciski widoku (poza formularzem) */}
-      {!isEditing && (
-        <Box sx={{ textAlign: 'center' }}>
-          <Avatar src={preview} sx={{ width: 100, height: 100, mx: 'auto', mb: 2 }} />
+      ) : (
+        <Box className="user-profile-view-container">
+          <Avatar src={preview} sx={{ width: 100, height: 100, mb: 2 }} />
           <TextField
             label="Login"
             value={profile.username}
@@ -208,7 +205,7 @@ export default function UserProfile() {
             margin="normal"
             disabled
           />
-          <Box sx={{ mt: 2 }}>
+          <Box className="user-profile-button-group">
             <Button
               type="button"
               variant="contained"

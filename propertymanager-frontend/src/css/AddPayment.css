@@ -1,0 +1,35 @@
+.add-payment-container {
+  padding: 24px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.add-payment-title {
+  margin-bottom: 16px;
+}
+
+.add-payment-error {
+  margin-bottom: 16px;
+}
+
+.add-payment-form .textfield-row {
+  margin-bottom: 16px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.checkbox-container label {
+  margin-left: 8px;
+}
+
+.button-group .submit-button {
+  margin-right: 8px;
+}
+
+.button-group .cancel-button {
+  margin-left: 8px;
+}

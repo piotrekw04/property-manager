@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import api from '../api';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import '../css/Chat.css';
 
-function Chat() {
+export default function Chat() {
   const [contacts, setContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -15,7 +16,6 @@ function Chat() {
   const messagesEndRef = useRef(null);
   const navigate = useNavigate();
 
-  // Zdekoduj swoje ID raz
   const myId = (() => {
     try {
       return jwtDecode(localStorage.getItem('access_token')).user_id;
@@ -24,39 +24,29 @@ function Chat() {
     }
   })();
 
-  // Scroll do dołu przy każdej zmianie messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Początkowe załaduj kontakty
   useEffect(() => {
     api.get('/messages/contacts/')
       .then(res => setContacts(res.data))
       .catch(err => {
-        console.error(err);
         if (err.response?.status === 401) navigate('/login');
       });
   }, [navigate]);
 
-  // WebSocket powiadomień
   useEffect(() => {
     const token = localStorage.getItem('access_token');
     if (!token) return;
-
     const ws = new WebSocket(`ws://localhost:8000/ws/notifications/?token=${token}`);
     ws.onmessage = e => {
       const data = JSON.parse(e.data);
       if (data.type !== 'new_message') return;
-
-      // Upewnij się, że senderId to number
       const senderId = Number(data.sender_id);
-
       setContacts(prev => {
-        // Czy już mamy tego nadawcę?
         const idx = prev.findIndex(c => Number(c.id) === senderId);
         if (idx >= 0) {
-          // Tylko uaktualnij
           const updated = [...prev];
           updated[idx] = {
             ...updated[idx],
@@ -64,33 +54,25 @@ function Chat() {
             hasUnread: true
           };
           return updated;
-        } else {
-          // Dodaj nowy
-          return [
-            ...prev,
-            {
-              id: senderId,
-              username: data.sender_username,
-              last_message: data.last_message,
-              hasUnread: true
-            }
-          ];
         }
+        return [
+          ...prev,
+          {
+            id: senderId,
+            username: data.sender_username,
+            last_message: data.last_message,
+            hasUnread: true
+          }
+        ];
       });
     };
-    ws.onopen = () => console.log('Notif WS connected');
-    ws.onclose = () => console.log('Notif WS disconnected');
     setNotifSocket(ws);
-
     return () => ws.close();
   }, []);
 
-  // Funkcja otwierająca czat
   const openChat = async contact => {
     chatSocket?.close();
     setSelectedContact(contact);
-
-    // Załaduj historię
     try {
       const res = await api.get(`/messages/${contact.id}/`);
       setMessages(res.data.messages.map(m => ({
@@ -101,8 +83,6 @@ function Chat() {
     } catch {
       setMessages([]);
     }
-
-    // WebSocket czatu
     const token = localStorage.getItem('access_token');
     const ws = new WebSocket(`ws://localhost:8000/ws/chat/${contact.id}/?token=${token}`);
     ws.onmessage = e => {
@@ -113,11 +93,7 @@ function Chat() {
         { sender_name: senderName, content: d.message, timestamp: d.timestamp }
       ]);
     };
-    ws.onopen = () => console.log('Chat WS connected');
-    ws.onclose = () => console.log('Chat WS disconnected');
     setChatSocket(ws);
-
-    // Oznacz jako przeczytane
     setContacts(prev =>
       prev.map(c =>
         Number(c.id) === contact.id ? { ...c, hasUnread: false } : c
@@ -125,45 +101,40 @@ function Chat() {
     );
   };
 
-  // Wyślij wiadomość
   const handleSend = e => {
     e.preventDefault();
     if (!newMessage.trim() || !chatSocket) return;
-
-    // Wyślij przez WS
     chatSocket.send(JSON.stringify({ message: newMessage }));
-
-    // Zaktualizuj własną listę kontaktów dokładnie tak samo
     setContacts(prev => {
       const idx = prev.findIndex(c => Number(c.id) === selectedContact.id);
       if (idx >= 0) {
         const updated = [...prev];
-        updated[idx] = { ...updated[idx], last_message: newMessage, hasUnread: false };
+        updated[idx] = {
+          ...updated[idx],
+          last_message: newMessage,
+          hasUnread: false
+        };
         return updated;
-      } else {
-        return [
-          ...prev,
-          {
-            id: selectedContact.id,
-            username: selectedContact.username,
-            last_message: newMessage,
-            hasUnread: false
-          }
-        ];
       }
+      return [
+        ...prev,
+        {
+          id: selectedContact.id,
+          username: selectedContact.username,
+          last_message: newMessage,
+          hasUnread: false
+        }
+      ];
     });
-
     setNewMessage('');
   };
 
-  // Wyszukiwanie nowego
   const handleSearch = async () => {
     try {
       const res = await api.get(`/user/search/?username=${searchUsername}`);
       setSearchResult(res.data);
-    } catch (err) {
-      console.error(err);
-      alert(err.response?.data?.error || 'Błąd wyszukiwania.');
+    } catch {
+      alert('Błąd wyszukiwania.');
       setSearchResult(null);
     }
   };
@@ -176,45 +147,39 @@ function Chat() {
     }
   };
 
-  // Render
   return (
-    <div style={{ display: 'flex', height: '90vh' }}>
-      {/* Lewy panel: kontakty */}
-      <div style={{ width: '25%', borderRight: '1px solid #ccc', overflowY: 'auto', padding: 10 }}>
+    <div className="chat-container">
+      <div className="chat-sidebar">
         <h3>Kontakty</h3>
-        <div style={{ marginBottom: 15 }}>
+        <div className="chat-search-area">
           <input
             type="text"
             value={searchUsername}
             onChange={e => setSearchUsername(e.target.value)}
             placeholder="Wyszukaj użytkownika..."
-            style={{ width: '100%', padding: 8, marginBottom: 5 }}
+            className="search-input"
           />
-          <button onClick={handleSearch} style={{ width: '100%', padding: 8 }}>Szukaj</button>
+          <button onClick={handleSearch} className="search-button">
+            Szukaj
+          </button>
           {searchResult && (
-            <div
-              style={{ marginTop: 10, padding: 10, backgroundColor: '#e0f7fa', cursor: 'pointer' }}
-              onClick={startConversation}
-            >
+            <div onClick={startConversation} className="search-result">
               Rozpocznij rozmowę z: <strong>{searchResult.username}</strong>
             </div>
           )}
         </div>
-
         {contacts.map(contact => (
           <div
             key={contact.id}
             onClick={() => openChat(contact)}
-            style={{
-              padding: 10,
-              cursor: 'pointer',
-              backgroundColor: selectedContact?.id === contact.id ? '#e0e0e0' : 'transparent'
-            }}
+            className={`contact-item ${
+              selectedContact?.id === contact.id ? 'selected' : ''
+            }`}
           >
             {contact.username}
-            {contact.hasUnread && <span style={{ color: 'red', fontSize: 20 }}>•</span>}
+            {contact.hasUnread && <span className="unread-dot">•</span>}
             {contact.last_message && (
-              <div style={{ fontSize: 12, color: '#777', marginTop: 4 }}>
+              <div className="contact-last-message">
                 {contact.last_message.length > 30
                   ? contact.last_message.substring(0, 30) + '...'
                   : contact.last_message}
@@ -223,38 +188,36 @@ function Chat() {
           </div>
         ))}
       </div>
-
-      {/* Prawy panel: okno czatu */}
-      <div style={{ width: '75%', display: 'flex', flexDirection: 'column' }}>
+      <div className="chat-content">
         {selectedContact ? (
           <>
-            <div style={{ padding: 10, borderBottom: '1px solid #ccc' }}>
+            <div className="chat-header">
               <h3>Czat z {selectedContact.username}</h3>
             </div>
-            <div style={{ flexGrow: 1, padding: 10, overflowY: 'auto', backgroundColor: '#f9f9f9' }}>
+            <div className="chat-messages">
               {messages.map((msg, i) => (
-                <div key={i} style={{ marginBottom: 10 }}>
+                <div key={i} className="chat-message">
                   <strong>{msg.sender_name}:</strong> {msg.content}
-                  <div style={{ fontSize: 10, color: '#999' }}>
+                  <div className="chat-timestamp">
                     {new Date(msg.timestamp).toLocaleString('pl-PL')}
                   </div>
                 </div>
               ))}
               <div ref={messagesEndRef} />
             </div>
-            <form onSubmit={handleSend} style={{ display: 'flex', padding: 10, borderTop: '1px solid #ccc' }}>
+            <form onSubmit={handleSend} className="chat-input-form">
               <input
                 type="text"
                 value={newMessage}
                 onChange={e => setNewMessage(e.target.value)}
                 placeholder="Wpisz wiadomość..."
-                style={{ flexGrow: 1, padding: 10, marginRight: 10 }}
+                className="chat-input"
               />
               <button type="submit">Wyślij</button>
             </form>
           </>
         ) : (
-          <div style={{ padding: 20 }}>
+          <div className="chat-messages">
             <p>Wybierz lub wyszukaj kontakt, aby rozpocząć rozmowę 📬</p>
           </div>
         )}
@@ -262,5 +225,3 @@ function Chat() {
     </div>
   );
 }
-
-export default Chat;

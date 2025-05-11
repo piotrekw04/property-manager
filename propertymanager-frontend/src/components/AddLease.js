@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
+import '../css/AddLease.css';
 
 function AddLease() {
   const [properties, setProperties] = useState([]);
@@ -77,10 +78,10 @@ function AddLease() {
   };
 
   return (
-    <div>
+    <div className="add-lease-container">
       <h2>Dodaj wynajem</h2>
 
-      {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+      {error && <div className="error-message">{error}</div>}
 
       <form onSubmit={handleSubmit}>
         <select name="property" value={formData.property} onChange={handleChange} required>
@@ -92,20 +93,24 @@ function AddLease() {
           ))}
         </select>
 
-        <div style={{ margin: '10px 0' }}>
+        <div className="tenant-search-container">
           <input
             type="text"
             value={searchTenantUsername}
-            onChange={(e) => setSearchTenantUsername(e.target.value)}
+            onChange={e => setSearchTenantUsername(e.target.value)}
             placeholder="Wyszukaj nazwę użytkownika najemcy"
           />
-          <button type="button" onClick={handleTenantSearch} style={{ marginLeft: '10px' }}>
+          <button
+            type="button"
+            onClick={handleTenantSearch}
+            className="search-button"
+          >
             Szukaj najemcy
           </button>
         </div>
 
         {searchResult && (
-          <div style={{ backgroundColor: '#e0f7fa', padding: '8px', marginBottom: '10px' }}>
+          <div className="search-result">
             Wybrano najemcę: <strong>{searchResult.username}</strong>
           </div>
         )}
@@ -146,7 +151,7 @@ function AddLease() {
           required
         />
 
-        <label style={{ display: 'block', marginTop: '10px' }}>
+        <label className="agreement-label">
           <input
             type="checkbox"
             name="agreement_signed_in_person"
@@ -156,7 +161,9 @@ function AddLease() {
           Umowa została podpisana na miejscu
         </label>
 
-        <button type="submit" style={{ marginTop: '15px' }}>Dodaj wynajem</button>
+        <button type="submit" className="submit-button">
+          Dodaj wynajem
+        </button>
       </form>
     </div>
   );
