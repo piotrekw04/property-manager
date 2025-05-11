@@ -1,0 +1,19 @@
+# Python / Django
+__pycache__/
+*.pyc
+venv/
+*.sqlite3
+/propertymanager/media/
+/propertymanager/staticfiles/
+
+# React / Node (jeśli masz frontend w pm/frontend)
+propertymanager-frontend/node_modules/
+propertymanager-frontend/build/
+
+# Środowisko
+.env
+
+# IDE, systemowe
+.vscode/
+.idea/
+Thumbs.db
