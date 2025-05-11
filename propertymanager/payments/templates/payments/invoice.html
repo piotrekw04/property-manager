@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Faktura {{ payment.invoice_number }}</title>
+  <style>
+    body { font-family: DejaVu Sans, sans-serif; margin: 2em; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+    th, td { border: 1px solid #333; padding: 0.5em; }
+    .header, .footer { width: 100%; text-align: center; margin-top: 1em; }
+  </style>
+</head>
+<body>
+  <h1>Faktura VAT {{ payment.invoice_number }}</h1>
+  <p><strong>Data wystawienia:</strong> {{ payment.invoice_date }}</p>
+
+  <h2>Sprzedawca</h2>
+  <p>{{ owner.first_name }} {{ owner.last_name }}<br>
+     {{ property.address }}</p>
+
+  <h2>Nabywca</h2>
+  <p>{{ tenant.first_name }} {{ tenant.last_name }}<br>
+     <!-- tu można dorzucić dane adresowe najemcy, jeśli są w profilu --></p>
+
+  <h2>Szczegóły płatności</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Lp.</th>
+        <th>Nazwa</th>
+        <th>Kwota</th>
+        <th>Data płatności</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>{{ payment.title }}</td>
+        <td>{{ payment.amount }} zł</td>
+        <td>{{ payment.date }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer">
+    <p>Dziękujemy za współpracę!</p>
+  </div>
+</body>
+</html>

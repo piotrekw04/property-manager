@@ -1,0 +1,70 @@
+.landing-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+  
+  .landing-content {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .login-button {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 0.8rem 2rem;
+    background-color: #4a6fa5;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .login-button:hover {
+    background-color: #3a5a8a;
+  }
+
+  /* ... istniejące style ... */
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .auth-button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+    text-align: center;
+    flex: 1;
+  }
+  
+  .auth-button.login {
+    background-color: #4a6fa5;
+    color: white;
+  }
+  
+  .auth-button.login:hover {
+    background-color: #3a5a8a;
+  }
+  
+  .auth-button.register {
+    background-color: #f8f9fa;
+    color: #4a6fa5;
+    border: 1px solid #4a6fa5;
+  }
+  
+  .auth-button.register:hover {
+    background-color: #e9ecef;
+  }

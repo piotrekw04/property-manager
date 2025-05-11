@@ -1,0 +1,66 @@
+<!-- leases/templates/leases/agreement.html -->
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <title>Umowa najmu {{ lease.id }}</title>
+  <style>
+    body { font-family: DejaVu Sans, sans-serif; margin: 2cm; }
+    h1 { text-align: center; margin-bottom: 1em; }
+    .section { margin-bottom: 1em; }
+    .label { font-weight: bold; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+    td, th { border: 1px solid #333; padding: 0.5em; }
+  </style>
+</head>
+<body>
+  <h1>Umowa najmu nr {{ lease.id }}</h1>
+
+  <div class="section">
+    <p><span class="label">Właściciel:</span> {{ lease.property.owner.first_name }} {{ lease.property.owner.last_name }} ({{ lease.property.owner.email }})</p>
+    <p><span class="label">Najemca:</span> {{ lease.tenant.first_name }} {{ lease.tenant.last_name }} ({{ lease.tenant.email }})</p>
+  </div>
+
+  <div class="section">
+    <p><span class="label">Nieruchomość:</span> {{ lease.property.name }}, {{ lease.property.address }}</p>
+    <p><span class="label">Typ:</span> {{ lease.property.get_property_type_display }}</p>
+    <p><span class="label">Powierzchnia:</span> {{ lease.property.area }} m²</p>
+  </div>
+
+  <div class="section">
+    <table>
+      <tr>
+        <th>Data rozpoczęcia</th>
+        <th>Data zakończenia</th>
+        <th>Czynsz miesięczny</th>
+        <th>Dzień płatności</th>
+      </tr>
+      <tr>
+        <td>{{ lease.start_date }}</td>
+        <td>{{ lease.end_date }}</td>
+        <td>{{ lease.rent_amount }} zł</td>
+        <td>{{ lease.payment_due_day }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <p>Umowa zostaje zawarta na czas określony od <strong>{{ lease.start_date }}</strong> do <strong>{{ lease.end_date }}</strong>.</p>
+  </div>
+
+  <div class="section" style="margin-top:2cm;">
+    <table style="border: none;">
+      <tr>
+        <td style="border: none; text-align: center;">
+          ___________________________<br>
+          Podpis właściciela
+        </td>
+        <td style="border: none; text-align: center;">
+          ___________________________<br>
+          Podpis najemcy
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
