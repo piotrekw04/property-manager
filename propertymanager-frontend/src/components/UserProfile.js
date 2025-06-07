@@ -82,8 +82,16 @@ export default function UserProfile() {
 
       {isEditing ? (
         <Box component="form" onSubmit={handleSubmit}>
-          <Box className="user-profile-avatar-center">
-            <Avatar src={preview} sx={{ width: 100, height: 100, mx: 'auto' }} />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 1,
+              mb: 2,
+            }}
+          >
+            <Avatar src={preview} sx={{ width: 100, height: 100 }} />
             <Button
               type="button"
               variant="outlined"
@@ -168,8 +176,8 @@ export default function UserProfile() {
           </Box>
         </Box>
       ) : (
-        <Box className="user-profile-view-container">
-          <Avatar src={preview} sx={{ width: 100, height: 100, mb: 2 }} />
+        <Box className="user-profile-view-container" sx={{ textAlign: 'center' }}>
+          <Avatar src={preview} sx={{ width: 100, height: 100, mb: 2, mx: 'auto' }} />
           <TextField
             label="Login"
             value={profile.username}
