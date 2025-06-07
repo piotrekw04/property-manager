@@ -1,6 +1,7 @@
 .chat-container {
   display: flex;
-  height: 90vh;
+  height: 70vh;
+  
 }
 
 .chat-sidebar {
@@ -12,6 +13,7 @@
 
 .chat-search-area {
   margin-bottom: 15px;
+  margin-right: 15px;
 }
 
 .search-input {

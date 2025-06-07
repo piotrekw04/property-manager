@@ -6,7 +6,8 @@
 
 .user-profile-avatar-center {
   text-align: center;
-  margin-bottom: 16px; /* matches MUI mb={2} */
+  margin-bottom: 15px; /* matches MUI mb={2} */
+
 }
 
 .user-profile-button-group {

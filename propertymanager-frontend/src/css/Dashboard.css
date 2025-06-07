@@ -29,3 +29,70 @@
 .dashboard-actions .action-button {
   margin-right: 16px;
 }
+
+header, nav, .topbar, .navbar, .menu {
+  background-color: #cfc1a6 !important;
+}
+
+button, .MuiButton-root, .dashboard-actions .action-button {
+  background-color: #888888 !important; /* szary */
+  color: white !important;
+  border: none !important;
+}
+
+.navbar button,
+.navbar a,
+.topbar button,
+.topbar a {
+  background-color: #888888 !important; /* szary */
+  color: white !important; /* biały tekst */
+  border: none !important;
+  text-decoration: none;
+  padding: 0px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+
+button:hover,
+.MuiButton-root:hover,
+.dashboard-actions .action-button:hover,
+.navbar button:hover,
+.navbar a:hover,
+.topbar button:hover,
+.topbar a:hover {
+  background-color: #717171 !important; /* ciemniejszy szary */
+  color: white !important;
+}
+
+button,
+.MuiButton-root,
+.dashboard-actions .action-button,
+.navbar button,
+.navbar a,
+.topbar button,
+.topbar a {
+  background-color: #888888 !important;
+  color: white !important;
+  border: none !important;
+  text-decoration: none;
+  margin: 5px !important;
+  padding: 10px !important;  /* min. 10px padding */
+  border-radius: 12px !important; /* zaokrąglenie */
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button:hover,
+.MuiButton-root:hover,
+.dashboard-actions .action-button:hover,
+.navbar button:hover,
+.navbar a:hover,
+.topbar button:hover,
+.topbar a:hover {
+  background-color: #717171 !important;
+  color: white !important;
+}
