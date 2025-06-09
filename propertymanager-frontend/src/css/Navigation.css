@@ -21,6 +21,11 @@
   padding: 0;
 }
 
+.nav-list li {
+  border: none;
+  outline: none;
+}
+
 .nav-link {
   background-color: #888888;
   color: white;

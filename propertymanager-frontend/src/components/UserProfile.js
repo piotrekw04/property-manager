@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box, Alert, Avatar } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import '../css/UserProfile.css';
 
 export default function UserProfile() {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const [profile, setProfile] = useState({
     username: '',
     first_name: '',
@@ -221,13 +221,6 @@ export default function UserProfile() {
               sx={{ mr: 2 }}
             >
               Edytuj profil
-            </Button>
-            <Button
-              type="button"
-              variant="outlined"
-              onClick={() => navigate('/user/change-password')}
-            >
-              Zmień hasło
             </Button>
           </Box>
         </Box>
